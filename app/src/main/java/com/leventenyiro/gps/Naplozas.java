@@ -1,6 +1,10 @@
 package com.leventenyiro.gps;
 
+import android.os.Environment;
+
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,5 +23,17 @@ public class Naplozas {
         String formatedDate = dateFormat.format(date);
 
         szovegesAdat = hosszusag + "," + szelesseg + "," + formatedDate + "," + "\r\n";
+
+        allapot = Environment.getExternalStorageState();
+        if (allapot.equals(Environment.MEDIA_MOUNTED)) {
+            file = new File(Environment.getExternalStorageDirectory(), "gps_track.csv");
+            try {
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true), 1024);
+                bufferedWriter.append(szovegesAdat);
+                bufferedWriter.close();
+            } catch (Exception e) {
+
+            }
+        }
     }
 }
